@@ -1,0 +1,71 @@
+[
+  {
+    "name": "Dharamshala",
+    "state": "Himachal Pradesh",
+    "latitude": 32.219,
+    "longitude": 76.323,
+    "travel_hours": 4,
+    "rating": 4.5,
+    "activities": [
+      "mountains",
+      "peaceful",
+      "trekking",
+      "nature"
+    ]
+  },
+  {
+    "name": "Manali",
+    "state": "Himachal Pradesh",
+    "latitude": 32.2432,
+    "longitude": 77.1892,
+    "travel_hours": 7,
+    "rating": 4.6,
+    "activities": [
+      "mountains",
+      "trekking",
+      "adventure",
+      "nature"
+    ]
+  },
+  {
+    "name": "Rishikesh",
+    "state": "Uttarakhand",
+    "latitude": 30.0869,
+    "longitude": 78.2676,
+    "travel_hours": 6,
+    "rating": 4.4,
+    "activities": [
+      "adventure",
+      "trekking",
+      "nature",
+      "peaceful"
+    ]
+  },
+  {
+    "name": "Dalhousie",
+    "state": "Himachal Pradesh",
+    "latitude": 32.5356,
+    "longitude": 75.528,
+    "travel_hours": 5,
+    "rating": 4.5,
+    "activities": [
+      "mountains",
+      "peaceful",
+      "nature"
+    ]
+  },
+  {
+    "name": "Kasol",
+    "state": "Himachal Pradesh",
+    "latitude": 32.0098,
+    "longitude": 77.3149,
+    "travel_hours": 6,
+    "rating": 4.4,
+    "activities": [
+      "mountains",
+      "trekking",
+      "peaceful",
+      "nature"
+    ]
+  }
+]
