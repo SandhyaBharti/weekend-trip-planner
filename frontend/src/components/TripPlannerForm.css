@@ -257,6 +257,92 @@
   color: var(--navy-dark);
 }
 
+.budget-hint {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+.budget-hint strong {
+  color: var(--navy-dark);
+}
+
+/* Tier Selector Grid */
+.tier-selector-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.tier-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-medium);
+  background: var(--bg-primary);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tier-card strong {
+  font-size: 0.88rem;
+  color: var(--navy-dark);
+}
+
+.tier-card span {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  line-height: 1.35;
+}
+
+.tier-card:hover {
+  border-color: var(--sky-blue);
+  background: var(--sky-light);
+}
+
+.tier-card.selected {
+  background: var(--sky-light);
+  border-color: var(--sky-blue);
+  box-shadow: 0 0 0 2px var(--sky-blue);
+}
+
+/* Transport Mode Grid */
+.transport-mode-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.transport-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 11px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-medium);
+  background: var(--bg-surface);
+  color: var(--navy-dark);
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.transport-btn:hover {
+  border-color: var(--sky-blue);
+  background: var(--sky-light);
+}
+
+.transport-btn.selected {
+  background: var(--navy-dark);
+  color: #FFFFFF;
+  border-color: var(--navy-dark);
+}
+
 .interest-pill.selected {
   background: var(--sky-blue);
   color: white;
