@@ -1,57 +1,64 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { ArrowLeft } from "lucide-react";
+import Navbar from "./components/Navbar";
+import Hero from "./components/Hero";
+import ExploreDestinations from "./components/ExploreDestinations";
+import DestinationModal from "./components/DestinationModal";
+import TripPlannerForm from "./components/TripPlannerForm";
+import TripResults from "./components/TripResults";
+import MyTrips from "./components/MyTrips";
+import AuthModal from "./components/AuthModal";
 import "./App.css";
 
 function App() {
+  const [activeTab, setActiveTab] = useState("home");
+  const [selectedDestination, setSelectedDestination] = useState(null);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+
+  // Form state — exactly matching backend TripRequest schema. No changes here.
   const [form, setForm] = useState({
-    location: "",
-    budget: "",
+    location: "Delhi",
+    budget: 15000,
     days: 2,
     people: 2,
     relationship: "couple",
-    interests: [],
-    max_travel_hours: 5,
-    start_date: ""
+    interests: ["mountains", "trekking"],
+    max_travel_hours: 6,
+    start_date: new Date(Date.now() + 86400000 * 3).toISOString().split("T")[0]
   });
-
-  const interests = [
-    "mountains",
-    "peaceful",
-    "trekking",
-    "adventure",
-    "nature"
-  ];
 
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value
-    });
-  };
+  // Saved Trips — persisted via localStorage (no database in original project)
+  const [savedTrips, setSavedTrips] = useState(() => {
+    try {
+      const stored = localStorage.getItem("weekend_planner_saved_trips");
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
 
-  const handleInterest = (interest) => {
-    setForm((prev) => ({
-      ...prev,
-      interests: prev.interests.includes(interest)
-        ? prev.interests.filter((x) => x !== interest)
-        : [...prev.interests, interest]
-    }));
-  };
+  useEffect(() => {
+    try {
+      localStorage.setItem("weekend_planner_saved_trips", JSON.stringify(savedTrips));
+    } catch (e) {
+      console.error("Could not save to localStorage", e);
+    }
+  }, [savedTrips]);
 
+  // ── Trip planning: calls POST /plan-trip — unchanged business logic ──
   const planTrip = async (e) => {
-    e.preventDefault();
-
+    if (e && e.preventDefault) e.preventDefault();
     setLoading(true);
-    setResult(null);
+    setError(null);
 
     try {
       const response = await fetch("http://127.0.0.1:8000/plan-trip", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...form,
           budget: Number(form.budget),
@@ -62,189 +69,161 @@ function App() {
       });
 
       const data = await response.json();
-      setResult(data);
-    } catch (error) {
-      setResult({
-        message: "Could not connect to backend. Make sure FastAPI is running."
-      });
+
+      if (data.error) {
+        setError(data.error);
+        setResult(null);
+      } else {
+        const enrichedResult = {
+          ...data,
+          id: Date.now().toString(),
+          createdAt: new Date().toISOString()
+        };
+        setResult(enrichedResult);
+        setActiveTab("results");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    } catch {
+      setError("Could not connect to backend API. Make sure the FastAPI server is running on port 8000.");
+      setResult(null);
     }
 
     setLoading(false);
   };
 
+  // Pre-fill form interests & max hours from a destination card click
+  const handleQuickPlanDestination = (dest) => {
+    setForm((prev) => ({
+      ...prev,
+      interests: Array.from(new Set([...prev.interests, ...dest.activities])),
+      max_travel_hours: Math.max(prev.max_travel_hours, dest.travel_hours)
+    }));
+    setActiveTab("planner");
+  };
+
+  const handleSaveTrip = (tripToSave) => {
+    if (!tripToSave) return;
+    setSavedTrips((prev) => {
+      const exists = prev.some((t) => t.id === tripToSave.id);
+      if (exists) return prev;
+      return [tripToSave, ...prev];
+    });
+  };
+
+  const handleDeleteSavedTrip = (id) => {
+    setSavedTrips((prev) => prev.filter((t) => t.id !== id));
+  };
+
+  const handleViewSavedTrip = (trip) => {
+    setResult(trip);
+    setActiveTab("results");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const navigateTo = (tab) => {
+    setActiveTab(tab);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
-    <div className="app">
+    <div className="app-shell">
+      {/* ── Sticky Navigation ── */}
+      <Navbar
+        activeTab={activeTab}
+        setActiveTab={navigateTo}
+        onOpenAuth={() => setIsAuthOpen(true)}
+      />
 
-      <header>
-        <h1>🌄 Weekend Trip Planner</h1>
-        <p>Find the best trip based on your preferences</p>
-      </header>
+      {/* ── Main View ── */}
+      <main className="main-content" id="main-content">
 
-      <form onSubmit={planTrip} className="form">
-
-        <input
-          name="location"
-          placeholder="Starting location"
-          value={form.location}
-          onChange={handleChange}
-          required
-        />
-
-        <input
-          name="budget"
-          type="number"
-          placeholder="Budget (₹)"
-          value={form.budget}
-          onChange={handleChange}
-          required
-        />
-
-        <div className="row">
-          <input
-            name="days"
-            type="number"
-            min="1"
-            placeholder="Days"
-            value={form.days}
-            onChange={handleChange}
+        {activeTab === "home" && (
+          <Hero
+            onStartPlanning={() => navigateTo("planner")}
+            onExplore={() => navigateTo("explore")}
           />
+        )}
 
-          <input
-            name="people"
-            type="number"
-            min="1"
-            placeholder="People"
-            value={form.people}
-            onChange={handleChange}
+        {activeTab === "explore" && (
+          <ExploreDestinations
+            onSelectDestination={(dest) => setSelectedDestination(dest)}
+            onPlanForDestination={(dest) => handleQuickPlanDestination(dest)}
+            onPlanMyWeekend={() => navigateTo("planner")}
           />
-        </div>
+        )}
 
-        <select
-          name="relationship"
-          value={form.relationship}
-          onChange={handleChange}
-        >
-          <option value="couple">Couple</option>
-          <option value="friends">Friends</option>
-          <option value="family">Family</option>
-          <option value="solo">Solo</option>
-        </select>
+        {activeTab === "planner" && (
+          <TripPlannerForm
+            form={form}
+            setForm={setForm}
+            onSubmit={planTrip}
+            loading={loading}
+            error={error}
+          />
+        )}
 
-        <input
-          name="max_travel_hours"
-          type="number"
-          min="1"
-          placeholder="Maximum travel hours"
-          value={form.max_travel_hours}
-          onChange={handleChange}
-        />
-
-        <label>Start Date</label>
-
-        <input
-          name="start_date"
-          type="date"
-          value={form.start_date}
-          onChange={handleChange}
-          required
-        />
-
-        <h3>What are you interested in?</h3>
-
-        <div className="interests">
-          {interests.map((interest) => (
-            <button
-              type="button"
-              key={interest}
-              className={
-                form.interests.includes(interest) ? "selected" : ""
-              }
-              onClick={() => handleInterest(interest)}
-            >
-              {interest}
-            </button>
-          ))}
-        </div>
-
-        <button className="plan-btn" type="submit">
-          {loading ? "Planning..." : "🚀 Plan My Trip"}
-        </button>
-
-      </form>
-
-      {result && (
-        <div className="results">
-
-          <h2>{result.message}</h2>
-
-          {result.destinations?.map((d, index) => (
-            <div className="card" key={d.name}>
-
-              <h2>
-                {index + 1}. {d.name}
-              </h2>
-
-              <p>📍 {d.state}</p>
-              <p>⭐ Rating: {d.rating}</p>
-              <p>🚗 Travel: {d.travel_hours} hours</p>
-
-              <p>
-                🎯 Match: {d.interest_match} / {form.interests.length}
-              </p>
-
-              <p>
-                🌧️ {d.weather_warning}
-              </p>
-
-              {d.cost && (
-                <div className="cost">
-                  <h3>💰 Estimated Cost: ₹{d.cost.total}</h3>
-
-                  <p>Transport: ₹{d.cost.transport}</p>
-                  <p>Hotel: ₹{d.cost.hotel}</p>
-                  <p>Food: ₹{d.cost.food}</p>
-                  <p>Activities: ₹{d.cost.activities}</p>
-
-                  {d.cost.status === "within_budget" ? (
-                    <p className="good">
-                      ✅ ₹{d.cost.difference} remaining
-                    </p>
-                  ) : (
-                    <p className="warning">
-                      ⚠️ Over budget by ₹{d.cost.difference}
-                    </p>
-                  )}
-                </div>
-              )}
-
-              <p>
-                🏔️ Activities: {d.activities.join(", ")}
-              </p>
-
+        {activeTab === "results" && (
+          <>
+            {/* Back link — pure UI navigation, no logic change */}
+            <div className="results-back-strip">
+              <button
+                className="btn-back-to-planner"
+                onClick={() => navigateTo("planner")}
+                aria-label="Back to Trip Planner"
+              >
+                <ArrowLeft size={16} aria-hidden="true" />
+                Back to Trip Planner
+              </button>
             </div>
-          ))}
+            <TripResults
+              result={result}
+              onSaveTrip={handleSaveTrip}
+              savedTripIds={savedTrips.map((t) => t.id)}
+            />
+          </>
+        )}
 
-          {result.itinerary && (
-            <div className="itinerary">
+        {activeTab === "saved" && (
+          <MyTrips
+            savedTrips={savedTrips}
+            onDeleteTrip={handleDeleteSavedTrip}
+            onViewTrip={handleViewSavedTrip}
+            onNavigateToPlanner={() => navigateTo("planner")}
+          />
+        )}
 
-              <h2>🗓️ Your Itinerary</h2>
+      </main>
 
-              {result.itinerary.map((day) => (
-                <div className="day" key={day.day}>
-                  <h3>Day {day.day}</h3>
-                  <p>📍 {day.destination}</p>
-                  <p>
-                    {day.activities.join(" • ")}
-                  </p>
-                </div>
-              ))}
-
-            </div>
-          )}
-
-        </div>
+      {/* ── Destination Detail Modal ── */}
+      {selectedDestination && (
+        <DestinationModal
+          destination={selectedDestination}
+          onClose={() => setSelectedDestination(null)}
+          onPlanTrip={(dest) => handleQuickPlanDestination(dest)}
+        />
       )}
 
+      {/* ── Auth Modal (frontend-only UI) ── */}
+      <AuthModal
+        isOpen={isAuthOpen}
+        onClose={() => setIsAuthOpen(false)}
+      />
+
+      {/* ── Footer ── */}
+      <footer className="app-footer" role="contentinfo">
+        <div className="footer-inner">
+          <div>
+            <div className="footer-brand">Weekend<span>Escapes</span></div>
+            <p>Smart AI Weekend Trip Planner</p>
+          </div>
+          <nav className="footer-links" aria-label="Footer navigation">
+            <button onClick={() => navigateTo("explore")}>Explore</button>
+            <button onClick={() => navigateTo("planner")}>Plan a Trip</button>
+            <button onClick={() => navigateTo("saved")}>My Trips</button>
+            <button onClick={() => setIsAuthOpen(true)}>Sign In</button>
+          </nav>
+        </div>
+      </footer>
     </div>
   );
 }

@@ -1,0 +1,188 @@
+.my-trips-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 40px 24px 72px;
+}
+
+.my-trips-header {
+  margin-bottom: 28px;
+}
+
+.my-trips-header h2 {
+  font-size: 2.2rem;
+  color: var(--navy-dark);
+  margin-bottom: 6px;
+}
+
+.my-trips-header p {
+  color: var(--text-muted);
+  font-size: 1.05rem;
+}
+
+/* Empty State */
+.my-trips-empty {
+  max-width: 480px;
+  margin: 70px auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-icon-box {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-full);
+  background: var(--sky-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.empty-icon {
+  color: var(--sky-blue);
+}
+
+.my-trips-empty h2 {
+  font-size: 1.6rem;
+  margin-bottom: 8px;
+}
+
+.my-trips-empty p {
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.btn-empty-plan {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border: none;
+  border-radius: var(--radius-full);
+  background: var(--sky-blue);
+  color: white;
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+
+.btn-empty-plan:hover {
+  background: #0072B5;
+}
+
+/* Saved Cards Grid */
+.saved-trips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 24px;
+}
+
+.saved-trip-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-md);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: var(--transition-fast);
+}
+
+.saved-trip-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--sky-blue);
+}
+
+.saved-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.saved-badge {
+  background: var(--sky-light);
+  color: var(--sky-blue);
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+}
+
+.btn-delete-trip {
+  background: transparent;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
+}
+
+.btn-delete-trip:hover {
+  color: var(--coral-warm);
+  background: var(--coral-light);
+}
+
+.saved-card-body h3 {
+  font-size: 1.25rem;
+  margin-bottom: 8px;
+}
+
+.saved-meta-row {
+  display: flex;
+  gap: 16px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 14px;
+}
+
+.saved-cost-box {
+  background: var(--bg-primary);
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.cost-val {
+  font-weight: 800;
+  color: var(--navy-dark);
+  font-size: 1.05rem;
+}
+
+.saved-message {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  margin-bottom: 18px;
+}
+
+.btn-view-saved {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-md);
+  background: var(--bg-surface);
+  color: var(--navy-dark);
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.btn-view-saved:hover {
+  background: var(--navy-dark);
+  color: white;
+  border-color: var(--navy-dark);
+}

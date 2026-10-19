@@ -1,141 +1,117 @@
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f7fb;
-}
-
-.app {
-  max-width: 900px;
-  margin: auto;
-  padding: 30px 20px;
-}
-
-header {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-header h1 {
-  font-size: 36px;
-  margin-bottom: 8px;
-}
-
-header p {
-  color: #666;
-}
-
-.form {
-  background: white;
-  padding: 25px;
-  border-radius: 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-}
-
-input,
-select {
-  width: 100%;
-  padding: 13px;
-  margin: 8px 0;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 15px;
-}
-
-.row {
+.app-shell {
+  min-height: 100vh;
   display: flex;
-  gap: 10px;
+  flex-direction: column;
+  background-color: var(--bg-primary);
 }
 
-.row input {
-  width: 50%;
-}
-
-.interests {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin: 15px 0;
-}
-
-.interests button {
-  padding: 10px 15px;
-  border: 1px solid #ccc;
-  background: white;
-  border-radius: 20px;
-  cursor: pointer;
-}
-
-.interests button.selected {
-  background: #222;
-  color: white;
-}
-
-.plan-btn {
+.main-content {
+  flex: 1;
   width: 100%;
-  padding: 14px;
+}
+
+/* ─── Page-level wrapper for consistent horizontal padding ─── */
+.page-wrapper {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* ─── Section Divider ─── */
+.section-divider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: 0 24px;
+}
+
+/* ─── Results Back Button Strip ─── */
+.results-back-strip {
+  max-width: 1100px;
+  margin: 24px auto 0;
+  padding: 0 24px;
+}
+
+.btn-back-to-planner {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
   border: none;
-  border-radius: 8px;
-  background: #222;
-  color: white;
-  font-size: 17px;
+  color: var(--text-muted);
+  font-size: 0.88rem;
+  font-weight: 600;
   cursor: pointer;
-  margin-top: 15px;
+  padding: 6px 0;
+  transition: var(--transition-fast);
 }
 
-.results {
-  margin-top: 35px;
+.btn-back-to-planner:hover {
+  color: var(--sky-blue);
 }
 
-.card {
-  background: white;
-  padding: 20px;
-  margin: 15px 0;
-  border-radius: 15px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+/* ─── Footer ─── */
+.app-footer {
+  background: var(--navy-dark);
+  color: white;
+  padding: 28px 24px;
+  margin-top: auto;
 }
 
-.cost {
-  background: #f5f5f5;
-  padding: 15px;
-  border-radius: 10px;
-  margin-top: 15px;
+.footer-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
 }
 
-.good {
-  font-weight: bold;
+.footer-brand {
+  font-size: 1rem;
+  font-weight: 800;
+  color: white;
+  letter-spacing: -0.02em;
 }
 
-.warning {
-  font-weight: bold;
+.footer-brand span {
+  color: var(--sky-blue);
 }
 
-.itinerary {
-  background: white;
-  padding: 20px;
-  border-radius: 15px;
-  margin-top: 25px;
+.footer-inner p {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.45);
+  margin-top: 2px;
 }
 
-.day {
-  border-left: 4px solid #333;
-  padding-left: 15px;
-  margin: 15px 0;
+.footer-links {
+  display: flex;
+  gap: 20px;
+  align-items: center;
 }
 
-@media (max-width: 600px) {
-  .row {
+.footer-links button {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.55);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.footer-links button:hover {
+  color: var(--sky-blue);
+}
+
+@media (max-width: 768px) {
+  .footer-inner {
     flex-direction: column;
+    text-align: center;
+    gap: 14px;
   }
 
-  .row input {
-    width: 100%;
-  }
-
-  header h1 {
-    font-size: 28px;
+  .footer-links {
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }

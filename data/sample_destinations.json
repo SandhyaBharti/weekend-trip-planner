@@ -1,5 +1,6 @@
 [
   {
+    "id": "dest-1",
     "name": "Dharamshala",
     "state": "Himachal Pradesh",
     "latitude": 32.219,
@@ -11,9 +12,22 @@
       "peaceful",
       "trekking",
       "nature"
-    ]
+    ],
+    "highlights": [
+      "Tsuglagkhang Complex & Dalai Lama Temple",
+      "Triund Scenic Ridge Trek",
+      "Bhagsunag Waterfall & Shiva Cafe",
+      "Norbulingka Tibetan Cultural Institute"
+    ],
+    "stay_options": {
+      "budget": "Upper Bhagsu Homestay",
+      "comfortable": "McLeodganj Boutique Pine Resort",
+      "luxury": "Fortune Park Moksha Heritage"
+    },
+    "description": "Nestled in the upper reaches of Kangra Valley, famous for peaceful monasteries, panoramic Dhauladhar mountain views, and the scenic Triund trek."
   },
   {
+    "id": "dest-2",
     "name": "Manali",
     "state": "Himachal Pradesh",
     "latitude": 32.2432,
@@ -25,9 +39,22 @@
       "trekking",
       "adventure",
       "nature"
-    ]
+    ],
+    "highlights": [
+      "Solang Valley Paragliding & Zorbing",
+      "Jogini Waterfall & Vashisht Hot Springs",
+      "Old Manali Bohemian Cafes & Cedar Trails",
+      "Atal Tunnel & Sissu Valley Drive"
+    ],
+    "stay_options": {
+      "budget": "Old Manali Riverside Hostel",
+      "comfortable": "Apple Orchard Cedar Cottage",
+      "luxury": "The Himalayan Castle Resort"
+    },
+    "description": "A high-altitude Himalayan resort town renowned for snow-capped peaks, Solang Valley sports, river rafting, and vibrant cafe culture."
   },
   {
+    "id": "dest-3",
     "name": "Rishikesh",
     "state": "Uttarakhand",
     "latitude": 30.0869,
@@ -39,9 +66,22 @@
       "trekking",
       "nature",
       "peaceful"
-    ]
+    ],
+    "highlights": [
+      "Grade-IV White Water Rafting on Holy Ganga",
+      "Triveni Ghat Evening Ganga Aarti",
+      "Beatles Ashram & Art Murals",
+      "Neer Garh Waterfall Cliff Hike"
+    ],
+    "stay_options": {
+      "budget": "Tapovan Backpacker Haven",
+      "comfortable": "Ganges View Boutique Retreat",
+      "luxury": "Aloha on the Ganges Luxury Resort"
+    },
+    "description": "The Yoga Capital of the World along the holy Ganges, offers thrilling white-water rafting, cliff jumping, and spiritual evening Aartis."
   },
   {
+    "id": "dest-4",
     "name": "Dalhousie",
     "state": "Himachal Pradesh",
     "latitude": 32.5356,
@@ -52,9 +92,22 @@
       "mountains",
       "peaceful",
       "nature"
-    ]
+    ],
+    "highlights": [
+      "Khajjiar Meadow (Mini Switzerland)",
+      "Dainkund Peak Singing Hill Trek",
+      "Kalatop Wildlife Sanctuary Walk",
+      "St. John's Scottish Church & Mall Road"
+    ],
+    "stay_options": {
+      "budget": "Pine View Mountain Homestay",
+      "comfortable": "Grand View Colonial Cottage",
+      "luxury": "JK Clarks Exotica Valley Resort"
+    },
+    "description": "A tranquil hill station built across five hills, surrounded by pine clad valleys and colonial charm near Khajjiar."
   },
   {
+    "id": "dest-5",
     "name": "Kasol",
     "state": "Himachal Pradesh",
     "latitude": 32.0098,
@@ -66,6 +119,71 @@
       "trekking",
       "peaceful",
       "nature"
-    ]
+    ],
+    "highlights": [
+      "Chalal Village Riverside Trail",
+      "Manikaran Sahib Natural Thermal Springs",
+      "Kheerganga High Altitude Trek & Hot Springs",
+      "Parvati River Boulder Cafes"
+    ],
+    "stay_options": {
+      "budget": "Parvati Woods Riverside Camp",
+      "comfortable": "Kasol Valley Pine Cottages",
+      "luxury": "Echor Riverside Boutique Resort"
+    },
+    "description": "A picturesque hamlet in Parvati Valley, popular among backpackers, nature lovers, and trekkers heading to Kheerganga."
+  },
+  {
+    "id": "dest-6",
+    "name": "Shimla",
+    "state": "Himachal Pradesh",
+    "latitude": 31.1048,
+    "longitude": 77.1734,
+    "travel_hours": 6,
+    "rating": 4.5,
+    "activities": [
+      "mountains",
+      "peaceful",
+      "nature"
+    ],
+    "highlights": [
+      "The Ridge & Historic Christ Church",
+      "Jakhoo Temple Hilltop Walk",
+      "Kufri Snow View & Nature Park",
+      "Viceregal Lodge & Heritage Walk"
+    ],
+    "stay_options": {
+      "budget": "Mall Road Heritage Homestay",
+      "comfortable": "Cedar Woods Boutique Hotel",
+      "luxury": "Wildflower Hall Oberoi Resort"
+    },
+    "description": "The erstwhile summer capital of British India, offering historic colonial promenades, cedar forests, and panoramic Himalayan vistas."
+  },
+  {
+    "id": "dest-7",
+    "name": "Mussoorie",
+    "state": "Uttarakhand",
+    "latitude": 30.4598,
+    "longitude": 78.0644,
+    "travel_hours": 6,
+    "rating": 4.4,
+    "activities": [
+      "mountains",
+      "peaceful",
+      "nature",
+      "adventure"
+    ],
+    "highlights": [
+      "Kempty Falls & Mountain Cable Car",
+      "Gun Hill Sunset Point Ropeway",
+      "Lal Tibba Highest Viewpoint",
+      "Camel's Back Road Scenic Walk"
+    ],
+    "stay_options": {
+      "budget": "Library Chowk Valley Homestay",
+      "comfortable": "Pine Hill Heritage Retreat",
+      "luxury": "JW Marriott Mussoorie Walnut Grove"
+    },
+    "description": "The Queen of the Hills, famous for mist-covered ridges, cascading waterfalls, Doon Valley sunset views, and colonial architecture."
   }
 ]
