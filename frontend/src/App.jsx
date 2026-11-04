@@ -14,6 +14,14 @@ function App() {
   const [activeTab, setActiveTab] = useState("home");
   const [selectedDestination, setSelectedDestination] = useState(null);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState(() => {
+    try {
+      const savedUser = localStorage.getItem("weekend_planner_user");
+      return savedUser ? JSON.parse(savedUser) : null;
+    } catch {
+      return null;
+    }
+  });
 
   // Form state — exactly matching backend TripRequest schema. No changes here.
   const [form, setForm] = useState({
@@ -125,6 +133,24 @@ function App() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const handleLogin = (user) => {
+    setCurrentUser(user);
+    try {
+      localStorage.setItem("weekend_planner_user", JSON.stringify(user));
+    } catch (e) {
+      console.error("Could not save user profile to localStorage", e);
+    }
+  };
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+    try {
+      localStorage.removeItem("weekend_planner_user");
+    } catch (e) {
+      console.error("Could not remove user from localStorage", e);
+    }
+  };
+
   return (
     <div className="app-shell">
       {/* ── Sticky Navigation ── */}
@@ -132,6 +158,8 @@ function App() {
         activeTab={activeTab}
         setActiveTab={navigateTo}
         onOpenAuth={() => setIsAuthOpen(true)}
+        user={currentUser}
+        onLogout={handleLogout}
       />
 
       {/* ── Main View ── */}
@@ -207,6 +235,7 @@ function App() {
       <AuthModal
         isOpen={isAuthOpen}
         onClose={() => setIsAuthOpen(false)}
+        onLogin={handleLogin}
       />
 
       {/* ── Footer ── */}
@@ -220,7 +249,11 @@ function App() {
             <button onClick={() => navigateTo("explore")}>Explore</button>
             <button onClick={() => navigateTo("planner")}>Plan a Trip</button>
             <button onClick={() => navigateTo("saved")}>My Trips</button>
-            <button onClick={() => setIsAuthOpen(true)}>Sign In</button>
+            {currentUser ? (
+              <button onClick={handleLogout}>Sign Out ({currentUser.name})</button>
+            ) : (
+              <button onClick={() => setIsAuthOpen(true)}>Sign In</button>
+            )}
           </nav>
         </div>
       </footer>

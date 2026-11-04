@@ -1,19 +1,21 @@
 .hero-section {
   position: relative;
-  padding: 48px 24px 72px;
+  padding: 64px 32px 72px;
   max-width: 1240px;
   margin: 0 auto;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.95fr);
   align-items: center;
-  text-align: center;
+  column-gap: 48px;
+  row-gap: 64px;
 }
 
 .hero-content {
-  max-width: 780px;
+  max-width: 620px;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
+  text-align: left;
 }
 
 .hero-badge {
@@ -27,7 +29,7 @@
   color: var(--sky-blue);
   font-size: 0.85rem;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
 .badge-sparkle {
@@ -35,11 +37,11 @@
 }
 
 .hero-headline {
-  font-size: 3rem;
+  font-size: clamp(2.6rem, 4vw, 3.65rem);
   line-height: 1.18;
   font-weight: 800;
   color: var(--navy-dark);
-  margin-bottom: 18px;
+  margin-bottom: 20px;
   letter-spacing: -0.03em;
 }
 
@@ -48,11 +50,11 @@
 }
 
 .hero-description {
-  font-size: 1.1rem;
+  font-size: 1.02rem;
   color: var(--text-muted);
-  line-height: 1.6;
-  margin-bottom: 32px;
-  max-width: 640px;
+  line-height: 1.75;
+  margin-bottom: 28px;
+  max-width: 550px;
 }
 
 /* Actions */
@@ -60,7 +62,7 @@
   display: flex;
   align-items: center;
   gap: 14px;
-  margin-bottom: 36px;
+  margin-bottom: 30px;
 }
 
 .btn-hero-primary {
@@ -110,9 +112,9 @@
 .hero-features-strip {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 12px;
-  margin-bottom: 56px;
+  margin-bottom: 0;
 }
 
 .feature-pill {
@@ -133,9 +135,92 @@
   color: var(--emerald-fresh);
 }
 
+/* Destination photo feature */
+.hero-visual {
+  position: relative;
+  min-width: 0;
+  height: 440px;
+  border-radius: 30px;
+  isolation: isolate;
+}
+
+.hero-visual-main {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  box-shadow: 0 24px 55px rgba(11, 25, 44, 0.2);
+}
+
+.hero-visual-shade {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(11, 25, 44, 0.02) 38%, rgba(11, 25, 44, 0.72) 100%);
+}
+
+.hero-photo-caption {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  left: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.35);
+}
+
+.hero-photo-rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 10px;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.94);
+  color: #9A5B00;
+  text-shadow: none;
+}
+
+.hero-photo-stack {
+  position: absolute;
+  top: 24px;
+  left: -24px;
+  display: grid;
+  grid-template-columns: repeat(2, 54px);
+  gap: 5px;
+  padding: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: var(--shadow-lg);
+}
+
+.hero-photo-stack img {
+  width: 54px;
+  height: 54px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.hero-photo-stack span {
+  grid-column: 1 / -1;
+  padding: 2px 2px 1px;
+  color: var(--navy-dark);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-align: center;
+}
+
 /* Grid */
 .hero-cards-grid {
   width: 100%;
+  grid-column: 1 / -1;
 }
 
 .grid-header {
@@ -233,8 +318,32 @@
 }
 
 @media (max-width: 768px) {
+  .hero-section {
+    grid-template-columns: 1fr;
+    padding: 44px 24px 56px;
+    row-gap: 36px;
+  }
+
+  .hero-content {
+    max-width: 680px;
+  }
+
   .hero-headline {
-    font-size: 2.2rem;
+    font-size: clamp(2.25rem, 8vw, 3rem);
+  }
+
+  .hero-visual {
+    width: 100%;
+    height: min(62vw, 380px);
+    min-height: 260px;
+  }
+
+  .hero-photo-stack {
+    left: 12px;
+  }
+
+  .hero-cards-grid {
+    grid-column: auto;
   }
 
   .hero-actions {
@@ -245,5 +354,27 @@
   .btn-hero-primary, .btn-hero-secondary {
     width: 100%;
     justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+
+  .hero-badge {
+    font-size: 0.76rem;
+  }
+
+  .hero-photo-caption {
+    right: 16px;
+    bottom: 16px;
+    left: 16px;
+    font-size: 0.78rem;
+  }
+
+  .cards-row {
+    grid-template-columns: 1fr;
   }
 }

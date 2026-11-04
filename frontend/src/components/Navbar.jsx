@@ -1,9 +1,21 @@
-import { useState } from "react";
-import { Compass, MapPin, Calendar, Heart, User, Menu, X, Sparkles } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Compass, MapPin, Calendar, Heart, User, Menu, X, Sparkles, LogOut, ChevronDown } from "lucide-react";
 import "./Navbar.css";
 
-function Navbar({ activeTab, setActiveTab, onOpenAuth }) {
+function Navbar({ activeTab, setActiveTab, onOpenAuth, user, onLogout }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [userDropdownOpen, setUserDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setUserDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const navItems = [
     { id: "home", label: "Home", icon: Compass },
@@ -15,6 +27,7 @@ function Navbar({ activeTab, setActiveTab, onOpenAuth }) {
   const handleNavClick = (id) => {
     setActiveTab(id);
     setMobileMenuOpen(false);
+    setUserDropdownOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -67,14 +80,63 @@ function Navbar({ activeTab, setActiveTab, onOpenAuth }) {
             <span>Plan Trip</span>
           </button>
 
-          <button 
-            className="btn-user-auth"
-            onClick={onOpenAuth}
-            aria-label="Sign In or Account"
-          >
-            <User size={17} aria-hidden="true" />
-            <span className="auth-label">Sign In</span>
-          </button>
+          {user ? (
+            <div className="navbar-user-dropdown-container" ref={dropdownRef}>
+              <button
+                className="btn-user-profile-badge"
+                onClick={() => setUserDropdownOpen(!userDropdownOpen)}
+                aria-expanded={userDropdownOpen}
+                aria-haspopup="true"
+                aria-label={`User profile for ${user.name}`}
+              >
+                <div className="user-avatar-circle">
+                  {user.avatarInitial || user.name.charAt(0).toUpperCase()}
+                </div>
+                <div className="user-info-text">
+                  <span className="user-display-name">{user.name}</span>
+                </div>
+                <ChevronDown size={14} className={`dropdown-chevron ${userDropdownOpen ? "open" : ""}`} aria-hidden="true" />
+              </button>
+
+              {userDropdownOpen && (
+                <div className="user-dropdown-menu animate-fade-in" role="menu">
+                  <div className="dropdown-user-header">
+                    <p className="dropdown-user-greeting">Signed in as</p>
+                    <p className="dropdown-user-email">{user.email || user.name}</p>
+                  </div>
+                  <div className="dropdown-divider" />
+                  <button
+                    className="dropdown-item"
+                    onClick={() => handleNavClick("saved")}
+                    role="menuitem"
+                  >
+                    <Heart size={15} aria-hidden="true" />
+                    <span>My Saved Trips</span>
+                  </button>
+                  <button
+                    className="dropdown-item logout"
+                    onClick={() => {
+                      setUserDropdownOpen(false);
+                      if (onLogout) onLogout();
+                    }}
+                    role="menuitem"
+                  >
+                    <LogOut size={15} aria-hidden="true" />
+                    <span>Sign Out</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <button 
+              className="btn-user-auth"
+              onClick={onOpenAuth}
+              aria-label="Sign In or Account"
+            >
+              <User size={17} aria-hidden="true" />
+              <span className="auth-label">Sign In</span>
+            </button>
+          )}
 
           {/* Mobile Menu Toggle */}
           <button
@@ -109,16 +171,40 @@ function Navbar({ activeTab, setActiveTab, onOpenAuth }) {
 
           <div className="mobile-drawer-divider" />
 
-          <button 
-            className="mobile-auth-btn"
-            onClick={() => {
-              onOpenAuth();
-              setMobileMenuOpen(false);
-            }}
-          >
-            <User size={18} aria-hidden="true" />
-            <span>Sign In / Register</span>
-          </button>
+          {user ? (
+            <div className="mobile-user-profile-box">
+              <div className="mobile-user-info">
+                <div className="user-avatar-circle">
+                  {user.avatarInitial || user.name.charAt(0).toUpperCase()}
+                </div>
+                <div>
+                  <div className="user-display-name">{user.name}</div>
+                  <div className="mobile-user-email">{user.email || "Active Profile"}</div>
+                </div>
+              </div>
+              <button 
+                className="mobile-logout-btn"
+                onClick={() => {
+                  if (onLogout) onLogout();
+                  setMobileMenuOpen(false);
+                }}
+              >
+                <LogOut size={16} aria-hidden="true" />
+                <span>Sign Out</span>
+              </button>
+            </div>
+          ) : (
+            <button 
+              className="mobile-auth-btn"
+              onClick={() => {
+                onOpenAuth();
+                setMobileMenuOpen(false);
+              }}
+            >
+              <User size={18} aria-hidden="true" />
+              <span>Sign In / Register</span>
+            </button>
+          )}
         </nav>
       )}
     </header>

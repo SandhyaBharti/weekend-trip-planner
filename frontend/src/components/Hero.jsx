@@ -1,4 +1,4 @@
-import { Sparkles, MapPin, Compass, ShieldCheck, Sun, DollarSign, ArrowRight } from "lucide-react";
+import { Sparkles, MapPin, Compass, ShieldCheck, Sun, DollarSign, ArrowRight, Star } from "lucide-react";
 import "./Hero.css";
 
 const FALLBACK_IMAGE = "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=600&q=80";
@@ -72,6 +72,30 @@ function Hero({ onStartPlanning, onExplore }) {
             <DollarSign size={16} className="feature-icon" aria-hidden="true" />
             <span>Itemized Travel Breakdown</span>
           </div>
+        </div>
+      </div>
+
+      <div className="hero-visual animate-fade-in" aria-label="Photos of popular weekend destinations">
+        <img
+          className="hero-visual-main"
+          src={featuredHighlights[1].img}
+          alt="Snowy mountain scenery in Manali, Himachal Pradesh"
+          fetchPriority="high"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = FALLBACK_IMAGE;
+          }}
+        />
+        <div className="hero-visual-shade" aria-hidden="true"></div>
+        <div className="hero-photo-caption">
+          <span className="hero-photo-rating"><Star size={13} fill="currentColor" aria-hidden="true" /> 4.6</span>
+          <span>Manali, Himachal Pradesh</span>
+        </div>
+        <div className="hero-photo-stack" aria-hidden="true">
+          {featuredHighlights.filter((dest) => dest.title !== "Manali").map((dest) => (
+            <img key={dest.title} src={dest.img} alt="" loading="lazy" />
+          ))}
+          <span>More places to go</span>
         </div>
       </div>
 

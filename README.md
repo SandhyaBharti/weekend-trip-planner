@@ -412,3 +412,4 @@ To expand the recommendation catalog, edit [`data/sample_destinations.json`](dat
 
 This project is licensed under the [MIT License](LICENSE).
 
+

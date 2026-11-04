@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { X, Mail, Lock, User, ArrowRight, Compass } from "lucide-react";
 import "./AuthModal.css";
 
-function AuthModal({ isOpen, onClose }) {
+function AuthModal({ isOpen, onClose, onLogin }) {
   const [isSignUp, setIsSignUp] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -24,10 +24,19 @@ function AuthModal({ isOpen, onClose }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmitted(true);
+
+    const userName = formData.name.trim() || formData.email.split("@")[0] || "Traveler";
+    const userPayload = {
+      name: userName,
+      email: formData.email,
+      avatarInitial: userName.charAt(0).toUpperCase()
+    };
+
     setTimeout(() => {
       setSubmitted(false);
+      if (onLogin) onLogin(userPayload);
       onClose();
-    }, 1200);
+    }, 900);
   };
 
   return (
